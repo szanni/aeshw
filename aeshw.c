@@ -7,8 +7,8 @@
 struct aeshw_ctx {
 };
 
-static int aeshw_ecb_set_key(struct crypto_tfm *tfm, const u8 *in_key,
-		       unsigned int key_len)
+static int aeshw_ecb_setkey(struct crypto_tfm *tfm, const u8 *in_key,
+			    unsigned int key_len)
 {
 	printk(KERN_INFO "Set ecb key in aeshw!\n");
 	return 0;
@@ -44,15 +44,15 @@ static struct crypto_alg aeshw_ecb_alg = {
 		.blkcipher = {
 			.min_keysize		=	AES_MIN_KEY_SIZE,
 			.max_keysize		=	AES_MAX_KEY_SIZE,
-			.setkey	   		= 	aeshw_ecb_set_key,
+			.setkey	   		= 	aeshw_ecb_setkey,
 			.encrypt		=	aeshw_ecb_encrypt,
 			.decrypt		=	aeshw_ecb_decrypt,
 		}
 	}
 };
 
-static int aeshw_cbc_set_key(struct crypto_tfm *tfm, const u8 *in_key,
-			     unsigned int key_len)
+static int aeshw_cbc_setkey(struct crypto_tfm *tfm, const u8 *in_key,
+			    unsigned int key_len)
 {
 	printk(KERN_INFO "Set cbc key in aeshw!\n");
 	return 0;
@@ -102,9 +102,10 @@ static struct crypto_alg aeshw_cbc_alg = {
 		.blkcipher = {
 			.min_keysize		=	AES_MIN_KEY_SIZE,
 			.max_keysize		=	AES_MAX_KEY_SIZE,
-			.setkey	   		= 	aeshw_cbc_set_key,
+			.setkey	   		= 	aeshw_cbc_setkey,
 			.encrypt		=	aeshw_cbc_encrypt,
 			.decrypt		=	aeshw_cbc_decrypt,
+			.ivsize	   		= 	AES_BLOCK_SIZE,
 		}
 	}
 };
