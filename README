@@ -1,0 +1,24 @@
+Issues
+============
+
+* openssl does not call the ECB encrypt function on -aes-128-ecb
+  dmesg only reports calls to set CBC key!??
+
+
+Usage
+=====
+
+    make
+    insmod aeshw.ko
+
+
+Test
+====
+
+    modprobe cryptodev
+    make
+    insmod aeshw.ko
+    ./test
+
+You should also look at the output of `dmesg`.
+
