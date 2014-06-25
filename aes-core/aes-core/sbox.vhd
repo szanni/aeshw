@@ -30,8 +30,8 @@ constant lut : sbox_lut := (
 	(x"E1", x"F8", x"98", x"11", x"69", x"D9", x"8E", x"94", x"9B", x"1E", x"87", x"E9", x"CE", x"55", x"28", x"DF"),
 	(x"8C", x"A1", x"89", x"0D", x"BF", x"E6", x"42", x"68", x"41", x"99", x"2D", x"0F", x"B0", x"54", x"BB", x"16")
 );
+signal col, row : std_logic_vector(3 downto 0) := (others => '0');
 
-signal col, row : std_logic_vector(3 downto 0);
 begin
 
 	row <= d_in(7 downto 4);
