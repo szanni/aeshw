@@ -45,10 +45,15 @@ end key_expander;
 
 architecture Behavioral of key_expander is
 
-signal sbox_0_out : std_logic_vector(7 downto 0);
+signal sbox_col_4_out : std_logic_vector(7 downto 0);
 
 begin
-sbox_0 : entity work.sbox port map(d_in => sbox_col4_in, d_out => sbox_0_out);
+--sbox_0 : entity work.sbox port map(d_in => sbox_col4_in, d_out => sbox_col_4_out);
+
+-- reg_1 : entity work.reg_32
+-- reg_2 : entity work.reg_32 
+-- reg_3 : entity work.reg_32
+-- reg_3 : entity work.reg_32
 
 
 
