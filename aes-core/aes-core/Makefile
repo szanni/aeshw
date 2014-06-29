@@ -1,18 +1,15 @@
 GHDL=ghdl
-GHDLFLAGS=--ieee=synopsys
-MOD = sbox sbox_tb sbox_inv sbox_inv_tb
+#GHDLFLAGS=--ieee=synopsys
+MOD = types.o cipher cipher_tb
 
-all: $(MOD)
+all: clean $(MOD)
+	$(GHDL) -r $(GHDLRUNFLAGS) cipher_tb
 
 %.o: %.vhd
 	$(GHDL) -a $(GHDLFLAGS) $<
 
 %: %.o
 	$(GHDL) -e $(GHDLFLAGS) $@
-
-test: $(MOD)
-	$(GHDL) -r $(GHDLRUNFLAGS) sbox_tb
-	$(GHDL) -r $(GHDLRUNFLAGS) sbox_inv_tb
 
 clean:
 	rm -f $(MOD)
