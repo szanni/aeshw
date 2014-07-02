@@ -3,6 +3,8 @@
 #include <linux/module.h>
 #include <crypto/algapi.h>
 #include <crypto/aes.h>
+#include <asm/io.h>
+#include <linux/delay.h>
 
 struct aeshw_ctx {
 };
@@ -114,6 +116,12 @@ static int __init aeshw_init(void)
 {
 	int rv = 0;
 
+	unsigned long phys = 0x43C30000ul;
+	//unsigned long phys = 0x41220000ul;
+	unsigned long size = 4ul;
+	u32 val;
+	void *virt;
+
 	if ((rv = crypto_register_alg(&aeshw_ecb_alg)))
 		goto err;
 
@@ -121,6 +129,40 @@ static int __init aeshw_init(void)
 		goto err_unregister_ecb;
 
 	printk(KERN_INFO "Loaded aeshw!\n");
+
+
+	if (request_mem_region(phys, size, "") == NULL) {
+		printk(KERN_ERR "aeshw: request_mem_region");
+		return -ENOMEM;
+	}
+
+	virt = ioremap_nocache(phys, size);
+	if (virt == NULL) {
+		printk(KERN_ERR "aeshw: ioremap_nocache");
+		return -ENOMEM;
+		//goto err;
+	}
+
+	val = 0x1;
+	iowrite32(val, virt);
+	printk(KERN_INFO "SW: %u\n", ioread32(virt));
+	msleep(100);
+
+	val = 0x3;
+	iowrite32(val, virt);
+	msleep(100);
+
+	val = 0x7;
+	iowrite32(val, virt);
+	msleep(100);
+
+	val = 0xF;
+	iowrite32(val, virt);
+	msleep(100);
+
+	iounmap(virt);
+	release_mem_region(phys, size);
+
 	return rv;
 
 err_unregister_ecb:
