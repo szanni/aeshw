@@ -9,10 +9,20 @@ package types is
 	type lut is array(0 to 255) of byte;
 
 	function to_state(d_in : std_logic_vector(127 downto 0)) return state;
+	function "XOR" (a, b : word) return word;
 
 end types;
 
 package body types is
+
+   function "XOR" (a, b : word) return word is
+		variable ret : word;
+	begin
+	   for i in 0 to 3 loop
+			ret(i) := a(i) xor b(i);
+		end loop;
+		return ret;
+	end "XOR";
 
 	function to_state(d_in : std_logic_vector(127 downto 0)) return state is
 		variable ret : state;

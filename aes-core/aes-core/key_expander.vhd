@@ -18,7 +18,7 @@
 --
 ----------------------------------------------------------------------------------
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_1164.all;
 use ieee.numeric_std.all;
 use work.types.all;
 
@@ -86,6 +86,12 @@ entity key_expander is
 		return rcon_lut(to_integer(unsigned(d_in)));
 	end rcon;
 	
+	function add_rcon (rcon_in : byte; column : word) return word is
+		variable ret : word;
+	begin
+		ret:= word((rcon(rcon_in) xor column(0)) & column(1 to 3));
+		return ret;
+	end add_rcon;
 	
 	function sub_word (d_in : word) return word is
 		variable ret : word;
@@ -106,13 +112,25 @@ entity key_expander is
 end key_expander;
 
 architecture Behavioral of key_expander is
-signal temp : word;
+
+signal col_0, col_1, col_2, col_3 : word;
+signal col_0_new, col_1_new, col_2_new, col_3_new : word;
+signal tmp : word;
 
 begin
-
-	temp <= word(key_in(12 to 15));
-	key_out <= state(temp & temp & temp & temp);
 	
+	col_0 <= word(key_in(0 to 3));
+	col_1 <= word(key_in(4 to 7));
+	col_2 <= word(key_in(8 to 11));
+	col_3 <= word(key_in(12 to 15));
 	
-
+	tmp <= add_rcon(rcon_in, sub_word(rot_word(col_3)));
+	
+	col_0_new <= tmp xor col_0;
+	col_1_new <= col_0_new xor col_1;
+	col_2_new <= col_1_new xor col_2;
+   col_3_new <= col_2_new xor col_3;	
+	
+	key_out <= state(col_0_new & col_1_new & col_2_new & col_3_new);
+	
 end Behavioral;
