@@ -6,7 +6,7 @@ package types is
 	subtype byte is std_logic_vector(7 downto 0);
 	type state is array(0 to 15) of byte;
 	type word is array(0 to 3) of byte;
-	type sbox_lut is array(0 to 255) of byte;
+	type lut is array(0 to 255) of byte;
 
 	function to_state(d_in : std_logic_vector(127 downto 0)) return state;
 

@@ -35,10 +35,12 @@ entity cipher is
 		ret(5) := d_in(4) xor d_in(5);
 		ret(6) := d_in(5) xor d_in(6);
 		ret(7) := d_in(6) xor d_in(7);
+		
+		return ret;
 	end mul3;
 
 	function sbox (d_in : byte) return byte is
-		constant lut : sbox_lut := (
+		constant sbox_lut : lut := (
 			x"63", x"7C", x"77", x"7B", x"F2", x"6B", x"6F", x"C5", x"30", x"01", x"67", x"2B", x"FE", x"D7", x"AB", x"76",
 			x"CA", x"82", x"C9", x"7D", x"FA", x"59", x"47", x"F0", x"AD", x"D4", x"A2", x"AF", x"9C", x"A4", x"72", x"C0",
 			x"B7", x"FD", x"93", x"26", x"36", x"3F", x"F7", x"CC", x"34", x"A5", x"E5", x"F1", x"71", x"D8", x"31", x"15",
@@ -57,7 +59,7 @@ entity cipher is
 			x"8C", x"A1", x"89", x"0D", x"BF", x"E6", x"42", x"68", x"41", x"99", x"2D", x"0F", x"B0", x"54", x"BB", x"16"
 		);
 	begin
-		return lut(to_integer(unsigned(d_in)));
+		return sbox_lut(to_integer(unsigned(d_in)));
 	end sbox;
 
 	function sub_bytes (d_in : state) return state is
