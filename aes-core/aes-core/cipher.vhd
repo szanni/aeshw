@@ -67,6 +67,11 @@ entity cipher is
 
 		return to_state(tout);
 	end mix_columns;
+
+	function add_round_key (din : state; key : state) return state is
+	begin
+		return din xor key;
+	end add_round_key;
 end cipher;
 
 architecture behavioral of cipher is
