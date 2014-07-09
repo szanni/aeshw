@@ -12,12 +12,10 @@ package types is
 	type matrix is array(0 to 3, 0 to 3) of byte;
 	type lut is array(0 to 255) of byte;
 
-	function to_state(din : list) return state;
+	function to_state(din : s_list) return state;
 	function to_state(din : matrix) return state;
-	function to_list(din : state) return list;
+	function to_s_list(din : state) return s_list;
 	function to_matrix(din : state) return matrix;
-	function "XOR" (a, b : word) return word;
-
 end types;
 
 package body types is

@@ -34,10 +34,10 @@ entity cipher is
 	end sbox;
 
 	function sub_bytes (din : state) return state is
-		variable tin : list;
-		variable tout : list;
+		variable tin : s_list;
+		variable tout : s_list;
 	begin
-		tin := to_list(din);
+		tin := to_s_list(din);
 
 		for i in 0 to 15 loop
 			tout(i) := sbox(tin(i));
