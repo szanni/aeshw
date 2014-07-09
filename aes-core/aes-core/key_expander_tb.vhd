@@ -80,10 +80,13 @@ begin
    -- clock process definitions
    clk_process :process
    begin
+	for i in 0 to 10 loop
 		clk <= '0';
 		wait for clk_period/2;
 		clk <= '1';
 		wait for clk_period/2;
+	end loop;
+	wait;
    end process;
  
 
