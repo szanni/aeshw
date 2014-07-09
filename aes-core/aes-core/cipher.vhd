@@ -47,30 +47,30 @@ entity cipher is
 	end sub_bytes;
 
 	function shift_rows (din : state) return state is
-		variable tin : list;
-		variable tout : list;
+		variable tin : matrix;
+		variable tout : matrix;
 	begin
-		tin := to_list(din);
+		tin := to_matrix(din);
 
-		tout(0) := tin(0);
-		tout(1) := tin(5);
-		tout(2) := tin(10);
-		tout(3) := tin(15);
+		tout(0, 0) := tin(0, 0);
+		tout(0, 1) := tin(0, 1);
+		tout(0, 2) := tin(0, 2);
+		tout(0, 3) := tin(0, 3);
 
-		tout(4) := tin(4);
-		tout(5) := tin(9);
-		tout(6) := tin(14);
-		tout(7) := tin(3);
+		tout(1, 0) := tin(1, 1);
+		tout(1, 1) := tin(1, 2);
+		tout(1, 2) := tin(1, 3);
+		tout(1, 3) := tin(1, 0);
 
-		tout(8) := tin(8);
-		tout(9) := tin(13);
-		tout(10) := tin(2);
-		tout(11) := tin(7);
+		tout(2, 0) := tin(2, 2);
+		tout(2, 1) := tin(2, 3);
+		tout(2, 2) := tin(2, 0);
+		tout(2, 3) := tin(2, 1);
 
-		tout(12) := tin(12);
-		tout(13) := tin(1);
-		tout(14) := tin(6);
-		tout(15) := tin(11);
+		tout(3, 0) := tin(3, 3);
+		tout(3, 1) := tin(3, 0);
+		tout(3, 2) := tin(3, 1);
+		tout(3, 3) := tin(3, 2);
 
 		return to_state(tout);
 	end shift_rows;
