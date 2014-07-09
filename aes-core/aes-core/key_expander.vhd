@@ -35,6 +35,7 @@ entity key_expander is
    port (
 		clk     : in  std_logic;
       reset   : in  std_logic;
+		x       : in  std_logic_vector(1 downto 0); 
       rcon_in : in  byte;   
 		key_in  : in  state;
 		key_out : out state
@@ -116,21 +117,47 @@ architecture Behavioral of key_expander is
 signal col_0, col_1, col_2, col_3 : word;
 signal col_0_new, col_1_new, col_2_new, col_3_new : word;
 signal tmp : word;
+signal exp_sn_out : state;
+signal reg_D, reg_Q : state;
+
 
 begin
 	
-	col_0 <= word(key_in(0 to 3));
-	col_1 <= word(key_in(4 to 7));
-	col_2 <= word(key_in(8 to 11));
-	col_3 <= word(key_in(12 to 15));
+	col_0 <= word(reg_D(0 to 3));
+	col_1 <= word(reg_D(4 to 7));
+	col_2 <= word(reg_D(8 to 11));
+	col_3 <= word(reg_D(12 to 15));
 	
 	tmp <= add_rcon(rcon_in, sub_word(rot_word(col_3)));
 	
 	col_0_new <= tmp xor col_0;
 	col_1_new <= col_0_new xor col_1;
 	col_2_new <= col_1_new xor col_2;
-   col_3_new <= col_2_new xor col_3;	
+   col_3_new <= col_2_new xor col_3;
 	
-	key_out <= state(col_0_new & col_1_new & col_2_new & col_3_new);
+	exp_sn_out <= state(col_0_new & col_1_new & col_2_new & col_3_new);
 	
+	
+	mux_4_1 : process(x, key_in, exp_sn_out, reg_Q)
+	begin
+		case x is 
+			when "00"   => reg_D <= key_in;
+			when "01"   => reg_D <= exp_sn_out;
+			when others => reg_D <= reg_Q;
+		end case;
+	end process mux_4_1;
+	
+
+	reg : process (reset, clk, reg_D)
+	begin
+			if reset = '1' then
+				reg_Q <= to_state(x"00000000000000000000000000000000");
+			elsif rising_edge(clk) then
+				reg_Q <= reg_D;
+			end if;
+	end process reg;
+	
+	
+	key_out <= reg_Q;
+
 end Behavioral;

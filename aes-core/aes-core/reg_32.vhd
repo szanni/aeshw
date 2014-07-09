@@ -33,8 +33,8 @@ entity reg_32 is
 port (
                 clk   : in  std_logic;
                 reset : in  std_logic;
-					 D     : in  std_logic_vector(31 downto 0);
-					 Q     : out std_logic_vector(31 downto 0)
+					 D     : in  std_logic_vector(128 downto 0);
+					 Q     : out std_logic_vector(128 downto 0)
         );
 end reg_32;
 
