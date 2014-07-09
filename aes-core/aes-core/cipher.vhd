@@ -6,11 +6,11 @@ use work.math.all;
 
 entity cipher is
 	port (
-		d_in  : in  state;
-		d_out : out state
+		din  : in  state;
+		dout : out state
 	);
 
-	function sbox (d_in : byte) return byte is
+	function sbox (din : byte) return byte is
 		constant sbox_lut : lut := (
 			x"63", x"7C", x"77", x"7B", x"F2", x"6B", x"6F", x"C5", x"30", x"01", x"67", x"2B", x"FE", x"D7", x"AB", x"76",
 			x"CA", x"82", x"C9", x"7D", x"FA", x"59", x"47", x"F0", x"AD", x"D4", x"A2", x"AF", x"9C", x"A4", x"72", x"C0",
@@ -30,42 +30,49 @@ entity cipher is
 			x"8C", x"A1", x"89", x"0D", x"BF", x"E6", x"42", x"68", x"41", x"99", x"2D", x"0F", x"B0", x"54", x"BB", x"16"
 		);
 	begin
-		return sbox_lut(to_integer(unsigned(d_in)));
+		return sbox_lut(to_integer(unsigned(din)));
 	end sbox;
 
-	function sub_bytes (d_in : state) return state is
-		variable ret : state;
+	function sub_bytes (din : state) return state is
+		variable tin : list;
+		variable tout : list;
 	begin
+		tin := to_list(din);
+
 		for i in 0 to 15 loop
-			ret(i) := sbox(d_in(i));
+			tout(i) := sbox(tin(i));
 		end loop;
-		return ret;
+
+		return to_state(tout);
 	end sub_bytes;
 
-	function shift_rows (d_in : state) return state is
-		variable ret : state;
+	function shift_rows (din : state) return state is
+		variable tin : list;
+		variable tout : list;
 	begin
-		ret(0) := d_in(0);
-		ret(1) := d_in(5);
-		ret(2) := d_in(10);
-		ret(3) := d_in(15);
+		tin := to_list(din);
 
-		ret(4) := d_in(4);
-		ret(5) := d_in(9);
-		ret(6) := d_in(14);
-		ret(7) := d_in(3);
+		tout(0) := tin(0);
+		tout(1) := tin(5);
+		tout(2) := tin(10);
+		tout(3) := tin(15);
 
-		ret(8) := d_in(8);
-		ret(9) := d_in(13);
-		ret(10) := d_in(2);
-		ret(11) := d_in(7);
+		tout(4) := tin(4);
+		tout(5) := tin(9);
+		tout(6) := tin(14);
+		tout(7) := tin(3);
 
-		ret(12) := d_in(12);
-		ret(13) := d_in(1);
-		ret(14) := d_in(6);
-		ret(15) := d_in(11);
+		tout(8) := tin(8);
+		tout(9) := tin(13);
+		tout(10) := tin(2);
+		tout(11) := tin(7);
 
-		return ret;
+		tout(12) := tin(12);
+		tout(13) := tin(1);
+		tout(14) := tin(6);
+		tout(15) := tin(11);
+
+		return to_state(tout);
 	end shift_rows;
 
 	function to_index(row : integer; col : integer) return integer is
@@ -73,24 +80,27 @@ entity cipher is
 		return row + col*4;
 	end to_index;
 
-	function mix_columns (d_in : state) return state is
-		variable ret : state;
+	function mix_columns (din : state) return state is
+		variable tin : list;
+		variable tout : list;
 	begin
-		for col in 0 to 3 loop
-			ret(to_index(0, col)) := mul2(d_in(to_index(0, col))) xor mul3(d_in(to_index(1, col))) xor d_in(to_index(2, col)) xor d_in(to_index(3, col));
-			ret(to_index(1, col)) := d_in(to_index(0, col)) xor mul2(d_in(to_index(1, col))) xor mul3(d_in(to_index(2, col))) xor d_in(to_index(3, col));
-			ret(to_index(2, col)) := d_in(to_index(0, col)) xor d_in(to_index(1, col)) xor mul2(d_in(to_index(2, col))) xor mul3(d_in(to_index(3, col)));
-			ret(to_index(3, col)) := mul3(d_in(to_index(0, col))) xor d_in(to_index(1, col)) xor d_in(to_index(2, col)) xor mul2(d_in(to_index(3, col)));
-		end loop;
-		return ret;
-	end mix_columns;
+		tin := to_list(din);
 
+		for col in 0 to 3 loop
+			tout(to_index(0, col)) := mul2(tin(to_index(0, col))) xor mul3(tin(to_index(1, col))) xor tin(to_index(2, col)) xor tin(to_index(3, col));
+			tout(to_index(1, col)) := tin(to_index(0, col)) xor mul2(tin(to_index(1, col))) xor mul3(tin(to_index(2, col))) xor tin(to_index(3, col));
+			tout(to_index(2, col)) := tin(to_index(0, col)) xor tin(to_index(1, col)) xor mul2(tin(to_index(2, col))) xor mul3(tin(to_index(3, col)));
+			tout(to_index(3, col)) := mul3(tin(to_index(0, col))) xor tin(to_index(1, col)) xor tin(to_index(2, col)) xor mul2(tin(to_index(3, col)));
+		end loop;
+
+		return to_state(tout);
+	end mix_columns;
 end cipher;
 
 architecture behavioral of cipher is
 begin
 
-	d_out <= mix_columns(d_in);
+	dout <= mix_columns(din);
 
 end behavioral;
 
