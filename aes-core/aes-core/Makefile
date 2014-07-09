@@ -1,6 +1,6 @@
 GHDL=ghdl
 #GHDLFLAGS=--ieee=synopsys
-MOD = types.o math.o cipher cipher_tb
+MOD = types.o math.o cipher key_expander cipher_tb
 
 all: clean $(MOD)
 	$(GHDL) -r $(GHDLRUNFLAGS) cipher_tb
