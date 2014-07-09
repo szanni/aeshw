@@ -35,7 +35,7 @@ entity cipher is
 		ret(5) := d_in(4) xor d_in(5);
 		ret(6) := d_in(5) xor d_in(6);
 		ret(7) := d_in(6) xor d_in(7);
-		
+
 		return ret;
 	end mul3;
 
@@ -97,12 +97,29 @@ entity cipher is
 		return ret;
 	end shift_rows;
 
+	function to_index(row : integer; col : integer) return integer is
+	begin
+		return row + col*4;
+	end to_index;
+
+	function mix_columns (d_in : state) return state is
+		variable ret : state;
+	begin
+		for col in 0 to 3 loop
+			ret(to_index(0, col)) := mul2(d_in(to_index(0, col))) xor mul3(d_in(to_index(1, col))) xor d_in(to_index(2, col)) xor d_in(to_index(3, col));
+			ret(to_index(1, col)) := d_in(to_index(0, col)) xor mul2(d_in(to_index(1, col))) xor mul3(d_in(to_index(2, col))) xor d_in(to_index(3, col));
+			ret(to_index(2, col)) := d_in(to_index(0, col)) xor d_in(to_index(1, col)) xor mul2(d_in(to_index(2, col))) xor mul3(d_in(to_index(3, col)));
+			ret(to_index(3, col)) := mul3(d_in(to_index(0, col))) xor d_in(to_index(1, col)) xor d_in(to_index(2, col)) xor mul2(d_in(to_index(3, col)));
+		end loop;
+		return ret;
+	end mix_columns;
+
 end cipher;
 
 architecture behavioral of cipher is
 begin
 
-	d_out <= shift_rows(d_in);
+	d_out <= mix_columns(d_in);
 
 end behavioral;
 
