@@ -75,22 +75,17 @@ entity cipher is
 		return to_state(tout);
 	end shift_rows;
 
-	function to_index(row : integer; col : integer) return integer is
-	begin
-		return row + col*4;
-	end to_index;
-
 	function mix_columns (din : state) return state is
-		variable tin : list;
-		variable tout : list;
+		variable tin : matrix;
+		variable tout : matrix;
 	begin
-		tin := to_list(din);
+		tin := to_matrix(din);
 
 		for col in 0 to 3 loop
-			tout(to_index(0, col)) := mul2(tin(to_index(0, col))) xor mul3(tin(to_index(1, col))) xor tin(to_index(2, col)) xor tin(to_index(3, col));
-			tout(to_index(1, col)) := tin(to_index(0, col)) xor mul2(tin(to_index(1, col))) xor mul3(tin(to_index(2, col))) xor tin(to_index(3, col));
-			tout(to_index(2, col)) := tin(to_index(0, col)) xor tin(to_index(1, col)) xor mul2(tin(to_index(2, col))) xor mul3(tin(to_index(3, col)));
-			tout(to_index(3, col)) := mul3(tin(to_index(0, col))) xor tin(to_index(1, col)) xor tin(to_index(2, col)) xor mul2(tin(to_index(3, col)));
+			tout(0, col) := mul2(tin(0, col)) xor mul3(tin(1, col)) xor tin(2, col) xor tin(3, col);
+			tout(1, col) := tin(0, col) xor mul2(tin(1, col)) xor mul3(tin(2, col)) xor tin(3, col);
+			tout(2, col) := tin(0, col) xor tin(1, col) xor mul2(tin(2, col)) xor mul3(tin(3, col));
+			tout(3, col) := mul3(tin(0, col)) xor tin(1, col) xor tin(2, col) xor mul2(tin(3, col));
 		end loop;
 
 		return to_state(tout);
