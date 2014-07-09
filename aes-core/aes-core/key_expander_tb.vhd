@@ -63,7 +63,7 @@ architecture behavior of key_expander_tb is
 	signal key_out : state;
 
    -- Clock period definitions
-   constant clk_period : time := 2000 ns;
+   constant clk_period : time := 10 ns;
  
 begin
  
@@ -92,21 +92,21 @@ begin
    begin
       -- load initial key into the registers
 		x <= "00"; -- load new key	
-		key_in <= to_state(x"2b7e151628aed2a6abf7158809cf4f3c");
+		key_in <= x"2b7e151628aed2a6abf7158809cf4f3c";
 		
-		wait for 2000 ns;
+		wait for 10 ns;
 		-- key loaded
 		x <= "01"; -- feed register with previous values passed through expansion-SN
 
 		-- round 1
-		--rcon_in <= x"01";			
-		wait for 2000 ns;
-		--assert key_out = to_state(x"a0fafe1788542cb123a339392a6c7605") report "key expension round(1) : failure" severity failure;
+		rcon_in <= x"01";			
+		wait for 10 ns;
+		assert key_out = x"a0fafe1788542cb123a339392a6c7605" report "key expension round(1) : failure" severity failure;
 		
 		-- round 2 (use key_out of round 1)
-		--rcon_in <= x"02";
-		wait for 2000 ns;
-		--assert key_out = to_state(x"f2c295f27a96b9435935807a7359f67f") report "key expension round(2) : failure" severity failure;
+		rcon_in <= x"02";
+		wait for 10 ns;
+		assert key_out = x"f2c295f27a96b9435935807a7359f67f" report "key expension round(2) : failure" severity failure;
       wait;
 	
    end process;

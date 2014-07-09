@@ -87,27 +87,24 @@ entity key_expander is
 		return rcon_lut(to_integer(unsigned(d_in)));
 	end rcon;
 	
-	function add_rcon (rcon_in : byte; column : word) return word is
-		variable ret : word;
-	begin
-		ret:= word((rcon(rcon_in) xor column(0)) & column(1 to 3));
-		return ret;
-	end add_rcon;
-	
 	function sub_word (d_in : word) return word is
-		variable ret : word;
+		variable t_in, t_out : w_list;
 	begin
+		t_in := to_w_list(d_in);
+		
 		for i in 0 to 3 loop
-			ret(i):= sbox(d_in(i));
+			t_out(i):= sbox(t_in(i));
 		end loop;
-		return ret;
+		return to_word(t_out);
 	end sub_word;
 	
 	function rot_word (d_in : word) return word is
-		variable ret : word;
-	begin
-		ret := d_in(1 to 3) & d_in(0);
-		return ret;
+		variable t_in, t_out : w_list;
+	begin		
+		t_in := to_w_list(d_in);
+
+		t_out := w_list(t_in(1 to 3) & t_in(0));
+		return to_word(t_out);
 	end rot_word;
 	
 end key_expander;
@@ -117,25 +114,26 @@ architecture Behavioral of key_expander is
 signal col_0, col_1, col_2, col_3 : word;
 signal col_0_new, col_1_new, col_2_new, col_3_new : word;
 signal tmp : word;
+signal state_list : s_list;
 signal exp_sn_out : state;
 signal reg_D, reg_Q : state;
 
 
 begin
+	 
+	col_0 <= state_column(reg_Q, 0);
+	col_1 <= state_column(reg_Q, 1);
+	col_2 <= state_column(reg_Q, 2);
+	col_3 <= state_column(reg_Q, 3);
 	
-	col_0 <= word(reg_D(0 to 3));
-	col_1 <= word(reg_D(4 to 7));
-	col_2 <= word(reg_D(8 to 11));
-	col_3 <= word(reg_D(12 to 15));
-	
-	tmp <= add_rcon(rcon_in, sub_word(rot_word(col_3)));
+	tmp <=  sub_word(rot_word(col_3)) xor (rcon(rcon_in) & x"000000");
 	
 	col_0_new <= tmp xor col_0;
 	col_1_new <= col_0_new xor col_1;
 	col_2_new <= col_1_new xor col_2;
    col_3_new <= col_2_new xor col_3;
 	
-	exp_sn_out <= state(col_0_new & col_1_new & col_2_new & col_3_new);
+	exp_sn_out <= col_0_new & col_1_new & col_2_new & col_3_new;
 	
 	
 	mux_4_1 : process(x, key_in, exp_sn_out, reg_Q)
@@ -151,7 +149,7 @@ begin
 	reg : process (reset, clk, reg_D)
 	begin
 			if reset = '1' then
-				reg_Q <= to_state(x"00000000000000000000000000000000");
+				reg_Q <= x"00000000000000000000000000000000";
 			elsif rising_edge(clk) then
 				reg_Q <= reg_D;
 			end if;
