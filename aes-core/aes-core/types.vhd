@@ -9,10 +9,13 @@ package types is
 	
 	type s_list is array(0 to 15) of byte;
 	type w_list is array(0 to 3) of byte;
+	type matrix is array(0 to 3, 0 to 3) of byte;
 	type lut is array(0 to 255) of byte;
 
 	function to_state(din : list) return state;
+	function to_state(din : matrix) return state;
 	function to_list(din : state) return list;
+	function to_matrix(din : state) return matrix;
 	function "XOR" (a, b : word) return word;
 
 end types;
@@ -28,6 +31,21 @@ package body types is
 		return ret;
 	end to_state;
 
+	
+	function to_state(din : matrix) return state is
+		variable ret : state;
+		variable i : integer;
+	begin
+		for row in 0 to 3 loop
+			for col in 0 to 3 loop
+				i := row + col * 4;
+				ret(128-i*8-1 downto 128-(i+1)*8) := din(row, col);
+			end loop;
+		end loop;
+		return ret;
+	end to_state;
+
+	
 	function to_s_list(din : state) return s_list is
 		variable ret : s_list;
 	begin
@@ -55,4 +73,17 @@ package body types is
 		return ret;
 	end to_w_list;
 
+
+	function to_matrix(din : state) return matrix is
+		variable ret : matrix;
+		variable i : integer;
+	begin
+		for row in 0 to 3 loop
+			for col in 0 to 3 loop
+				i := row + col * 4;
+				ret(row, col) := din(128-i*8-1 downto 128-(i+1)*8);
+			end loop;
+		end loop;
+		return ret;
+	end to_matrix;
 end types;

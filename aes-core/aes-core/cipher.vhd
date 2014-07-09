@@ -47,50 +47,45 @@ entity cipher is
 	end sub_bytes;
 
 	function shift_rows (din : state) return state is
-		variable tin : list;
-		variable tout : list;
+		variable tin : matrix;
+		variable tout : matrix;
 	begin
-		tin := to_list(din);
+		tin := to_matrix(din);
 
-		tout(0) := tin(0);
-		tout(1) := tin(5);
-		tout(2) := tin(10);
-		tout(3) := tin(15);
+		tout(0, 0) := tin(0, 0);
+		tout(0, 1) := tin(0, 1);
+		tout(0, 2) := tin(0, 2);
+		tout(0, 3) := tin(0, 3);
 
-		tout(4) := tin(4);
-		tout(5) := tin(9);
-		tout(6) := tin(14);
-		tout(7) := tin(3);
+		tout(1, 0) := tin(1, 1);
+		tout(1, 1) := tin(1, 2);
+		tout(1, 2) := tin(1, 3);
+		tout(1, 3) := tin(1, 0);
 
-		tout(8) := tin(8);
-		tout(9) := tin(13);
-		tout(10) := tin(2);
-		tout(11) := tin(7);
+		tout(2, 0) := tin(2, 2);
+		tout(2, 1) := tin(2, 3);
+		tout(2, 2) := tin(2, 0);
+		tout(2, 3) := tin(2, 1);
 
-		tout(12) := tin(12);
-		tout(13) := tin(1);
-		tout(14) := tin(6);
-		tout(15) := tin(11);
+		tout(3, 0) := tin(3, 3);
+		tout(3, 1) := tin(3, 0);
+		tout(3, 2) := tin(3, 1);
+		tout(3, 3) := tin(3, 2);
 
 		return to_state(tout);
 	end shift_rows;
 
-	function to_index(row : integer; col : integer) return integer is
-	begin
-		return row + col*4;
-	end to_index;
-
 	function mix_columns (din : state) return state is
-		variable tin : list;
-		variable tout : list;
+		variable tin : matrix;
+		variable tout : matrix;
 	begin
-		tin := to_list(din);
+		tin := to_matrix(din);
 
 		for col in 0 to 3 loop
-			tout(to_index(0, col)) := mul2(tin(to_index(0, col))) xor mul3(tin(to_index(1, col))) xor tin(to_index(2, col)) xor tin(to_index(3, col));
-			tout(to_index(1, col)) := tin(to_index(0, col)) xor mul2(tin(to_index(1, col))) xor mul3(tin(to_index(2, col))) xor tin(to_index(3, col));
-			tout(to_index(2, col)) := tin(to_index(0, col)) xor tin(to_index(1, col)) xor mul2(tin(to_index(2, col))) xor mul3(tin(to_index(3, col)));
-			tout(to_index(3, col)) := mul3(tin(to_index(0, col))) xor tin(to_index(1, col)) xor tin(to_index(2, col)) xor mul2(tin(to_index(3, col)));
+			tout(0, col) := mul2(tin(0, col)) xor mul3(tin(1, col)) xor tin(2, col) xor tin(3, col);
+			tout(1, col) := tin(0, col) xor mul2(tin(1, col)) xor mul3(tin(2, col)) xor tin(3, col);
+			tout(2, col) := tin(0, col) xor tin(1, col) xor mul2(tin(2, col)) xor mul3(tin(3, col));
+			tout(3, col) := mul3(tin(0, col)) xor tin(1, col) xor tin(2, col) xor mul2(tin(3, col));
 		end loop;
 
 		return to_state(tout);
