@@ -35,7 +35,7 @@ entity key_expander is
    port (
 		clk     : in  std_logic;
       reset   : in  std_logic;
-		x       : in  std_logic_vector(1 downto 0); 
+		y       : in  std_logic_vector(1 downto 0); 
       rcon_in : in  byte;   
 		key_in  : in  state;
 		key_out : out state
@@ -136,9 +136,9 @@ begin
 	exp_sn_out <= col_0_new & col_1_new & col_2_new & col_3_new;
 	
 	
-	mux_4_1 : process(x, key_in, exp_sn_out, reg_Q)
+	mux_4_1 : process(y, key_in, exp_sn_out, reg_Q)
 	begin
-		case x is 
+		case y is 
 			when "00"   => reg_D <= key_in;
 			when "01"   => reg_D <= exp_sn_out;
 			when others => reg_D <= reg_Q;

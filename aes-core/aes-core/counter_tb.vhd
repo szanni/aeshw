@@ -27,6 +27,8 @@
 --------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
+use ieee.numeric_std.all;
+
  
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -43,8 +45,9 @@ ARCHITECTURE behavior OF counter_tb IS
     PORT(
          clk : IN  std_logic;
          reset : IN  std_logic;
-         x : IN  std_logic_vector(1 downto 0);
-         d_out : OUT  std_logic_vector(7 downto 0)
+         y : IN  std_logic_vector(1 downto 0);
+         d_out : OUT  std_logic_vector(7 downto 0);
+			x : OUT std_logic
         );
     END COMPONENT;
     
@@ -52,7 +55,8 @@ ARCHITECTURE behavior OF counter_tb IS
    --Inputs
    signal clk : std_logic := '0';
    signal reset : std_logic := '0';
-   signal x : std_logic_vector(1 downto 0) := (others => '0');
+   signal y : std_logic_vector(1 downto 0) := (others => '0');
+	signal x : std_logic;
 
  	--Outputs
    signal d_out : std_logic_vector(7 downto 0);
@@ -66,8 +70,9 @@ BEGIN
    uut: counter PORT MAP (
           clk => clk,
           reset => reset,
-          x => x,
-          d_out => d_out
+          y => y,
+          d_out => d_out,
+			 x => x
         );
 
    -- Clock process definitions
@@ -90,43 +95,25 @@ BEGIN
       wait for clk_period;	
 		
 		-- load 0 into the register	
-		x <= "00";
+		y <= "00";
 
       wait for clk_period;
 		assert d_out = x"00" report "counter : failure" severity failure;
+		assert x = '0' report "counter : failure" severity failure;
+
 		-- increment value
-		x <= "01";
+		y <= "01";
 		
-		wait for clk_period;
-		assert d_out = x"01" report "counter : failure" severity failure;
-		
-		wait for clk_period;
-		assert d_out = x"02" report "counter : failure" severity failure;
-		
-		wait for clk_period;
-		assert d_out = x"03" report "counter : failure" severity failure;
-		
-		wait for clk_period;
-		assert d_out = x"04" report "counter : failure" severity failure;
-		
-		wait for clk_period;
-		assert d_out = x"05" report "counter : failure" severity failure;
-		
-		wait for clk_period;
-		assert d_out = x"06" report "counter : failure" severity failure;
-		
-		wait for clk_period;
-		assert d_out = x"07" report "counter : failure" severity failure;
-		
-		wait for clk_period;
-		assert d_out = x"08" report "counter : failure" severity failure;
-		
-		wait for clk_period;
-		assert d_out = x"09" report "counter : failure" severity failure;
+		for i in 1 to 9 loop
+			wait for clk_period;
+			assert d_out = std_logic_vector(to_unsigned(i, d_out'length)) report "counter : failure" severity failure;
+			assert x = '0' report "counter : failure" severity failure;
+		end loop;
 		
 		wait for clk_period;
 		assert d_out = x"0A" report "counter : failure" severity failure;
-
+		assert x = '1' report "counter : failure" severity failure;
+		
       wait;
    end process;
 

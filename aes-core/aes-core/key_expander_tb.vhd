@@ -44,7 +44,7 @@ architecture behavior of key_expander_tb is
     port(
          clk : in  std_logic;
          reset : in  std_logic;
-			x : in std_logic_vector(1 downto 0);
+			y : in std_logic_vector(1 downto 0);
          rcon_in : in  byte;
          key_in : in  state;
          key_out : out  state
@@ -54,7 +54,7 @@ architecture behavior of key_expander_tb is
    --Inputs
    signal clk : std_logic := '0';
    signal reset : std_logic := '0';
-	signal x : std_logic_vector(1 downto 0) := "00";
+	signal y : std_logic_vector(1 downto 0) := "00";
    signal rcon_in : byte := (others => '0');
   
 	signal key_in : state;
@@ -71,7 +71,7 @@ begin
    uut: key_expander port map (
           clk => clk,
           reset => reset,
-			 x => x,
+			 y => y,
           rcon_in => rcon_in,
           key_in => key_in,
           key_out => key_out
@@ -94,12 +94,12 @@ begin
    stim_proc: process
    begin
       -- load initial key into the registers
-		x <= "00"; -- load new key	
+		y <= "00"; -- load new key	
 		key_in <= x"2b7e151628aed2a6abf7158809cf4f3c";
 		
 		wait for 10 ns;
 		-- key loaded
-		x <= "01"; -- feed register with previous values passed through expansion-SN
+		y <= "01"; -- feed register with previous values passed through expansion-SN
 
 		-- round 1
 		rcon_in <= x"01";			
