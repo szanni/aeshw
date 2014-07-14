@@ -104,14 +104,13 @@ BEGIN
 		-- increment value
 		y <= "01";
 		
-		for i in 1 to 9 loop
+		for i in 1 to 10 loop
 			wait for clk_period;
 			assert d_out = std_logic_vector(to_unsigned(i, d_out'length)) report "counter : failure" severity failure;
 			assert x = '0' report "counter : failure" severity failure;
 		end loop;
 		
-		wait for clk_period;
-		assert d_out = x"0A" report "counter : failure" severity failure;
+		assert d_out = x"0B" report "counter : failure" severity failure;
 		assert x = '1' report "counter : failure" severity failure;
 		
       wait;
