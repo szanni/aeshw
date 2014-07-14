@@ -131,7 +131,38 @@ BEGIN
 		wait for clk_period;
 		assert key_out = x"f2c295f27a96b9435935807a7359f67f" report "ram module : lookup failure (address 2)" severity failure;
 
-
+		address_in <= x"3";
+		wait for clk_period;
+		assert key_out = x"3d80477d4716fe3e1e237e446d7a883b" report "ram module : lookup failure (address 3)" severity failure;
+		
+		address_in <= x"4";
+		wait for clk_period;
+		assert key_out = x"ef44a541a8525b7fb671253bdb0bad00" report "ram module : lookup failure (address 4)" severity failure;
+		
+		address_in <= x"5";
+		wait for clk_period;
+		assert key_out = x"d4d1c6f87c839d87caf2b8bc11f915bc" report "ram module : lookup failure (address 5)" severity failure;
+		
+		address_in <= x"6";
+		wait for clk_period;
+		assert key_out = x"6d88a37a110b3efddbf98641ca0093fd" report "ram module : lookup failure (address 6)" severity failure;
+		
+		address_in <= x"7";
+		wait for clk_period;
+		assert key_out = x"4e54f70e5f5fc9f384a64fb24ea6dc4f" report "ram module : lookup failure (address 7)" severity failure;
+		
+		address_in <= x"8";
+		wait for clk_period;
+		assert key_out = x"ead27321b58dbad2312bf5607f8d292f" report "ram module : lookup failure (address 8)" severity failure;
+		
+		address_in <= x"9";
+		wait for clk_period;
+		assert key_out = x"ac7766f319fadc2128d12941575c006e" report "ram module : lookup failure (address 9)" severity failure;
+		
+		address_in <= x"A";
+		wait for clk_period;
+		assert key_out = x"d014f9a8c9ee2589e13f0cc8b6630ca6" report "ram module : lookup failure (address A)" severity failure;
+				
       wait;
    end process;
 
