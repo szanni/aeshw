@@ -67,7 +67,7 @@ begin
 	
 	comp : process (reg_Q)
 	begin
-		if reg_Q = x"0A" then
+		if reg_Q = x"0B" then
 			x <= '1';
 		else
 			x <= '0';

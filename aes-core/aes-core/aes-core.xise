@@ -20,7 +20,7 @@
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="key_expander.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="2"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="3"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="cipher.vhd" xil_pn:type="FILE_VHDL">
@@ -44,17 +44,13 @@
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="75"/>
     </file>
     <file xil_pn:name="key_expander_tb.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="3"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="4"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="83"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="83"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="83"/>
     </file>
-    <file xil_pn:name="reg_32.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
-    </file>
     <file xil_pn:name="sbox.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="2"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="inv_cipher.vhd" xil_pn:type="FILE_VHDL">
@@ -80,6 +76,10 @@
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="124"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="124"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="124"/>
+    </file>
+    <file xil_pn:name="key_expansion_cu.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
   </files>
 
