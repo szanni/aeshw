@@ -99,18 +99,21 @@ BEGIN
 		key_in <= x"2b7e151628aed2a6abf7158809cf4f3c";
 		
 		wait for clk_period;
-		
+		assert exp_end = '0' report "key expansion module: failure" severity failure;
+		-- expander and counter now initialized
+
 		exp_start <= '0';
 		
 		-- wait until expansion is finished
-		for i in 1 to 11 loop
-			assert exp_end = '0' report "key expansion module: failure" severity failure;
+		for i in 1 to 10 loop
 			wait for clk_period;
+			assert exp_end = '0' report "key expansion module: failure" severity failure;
 		end loop;
 		
+		
+		wait for clk_period;
 		-- expansion should now be finished
 		assert exp_end = '1' report "key expansion module: failure" severity failure;
-		
 		wait for clk_period;
 		
 		-- expansion is ready again

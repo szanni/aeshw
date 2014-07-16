@@ -47,47 +47,46 @@ end key_expansion_cu;
 
 architecture Behavioral of key_expansion_cu is
 
-type States is (S1, S2);
+type States is (S0, S1, S2);
 signal S, S_next : States;
 
 begin
 	
-	delta_lambda : process (S, x_start, x_comp)
+	delta : process (S, x_start, x_comp)
 	begin
 		case S is 
-			when S1 => if x_start = '0' then
-							  S_next <= S1;
-							  y_1_2 <= "--"; 
-						     y_3_4 <= "--";
-						     y_we <= '0';
-						     y_end <= '0';
-						  else
-							  S_next <= S2;
-							  y_1_2 <= "00"; 
-						     y_3_4 <= "00";
-						     y_we <= '0';
-						     y_end <= '0';
-						  end if;	  
-			when S2 => if x_comp = '0' then
-							  S_next <= S2;
-							  y_1_2 <= "01";
-							  y_3_4 <= "01";
-							  y_we <= '1';
-							  y_end <= '0';
-						  else
-							  S_next <= S1;
-							  y_1_2 <= "--";
-							  y_3_4 <= "--";
-							  y_we <= '0';
-							  y_end <= '1';
+			when S0 => y_1_2 <="00"; -- load into expander
+						  y_3_4 <="00"; -- initialize counter
+						  y_we <= '0';
+						  y_end <= '0';
+						  if x_start = '1' then
+							S_next <= S1;
+						  else 
+						   S_next <= S0;
 						  end if;
+			
+			when S1 => y_1_2 <= "01"; -- feed back last round key
+						  y_3_4 <= "01"; -- increment counter
+						  y_we <= '1';
+						  y_end <= '0';
+						  if x_comp = '1' then
+							S_next <= S2;
+						  else 
+						   S_next <= S1;
+						  end if;
+						  
+			when S2 => y_1_2 <= "--";
+						  y_3_4 <= "--";
+						  y_we <= '0';
+						  y_end <= '1';
+						  S_next <= S0;
 		end case;
-	end process delta_lambda;
+	end process delta;
 
 	feedback_loop : process (clk, reset, S_next)
 	begin
 		if reset = '1' then
-			S <= S1;
+			S <= S0;
 		elsif rising_edge(clk) then
 			S <= S_next;
 		end if;

@@ -6,8 +6,13 @@ use work.sbox.all;
 
 entity cipher is
 	port (
-		din  : in  state;
-		dout : out state
+		clk     : in  std_logic;
+		reset   : in  std_logic;
+		y	     : in  std_logic_vector(1 downto 0);	
+		din     : in  state;
+		rkey_in : in  state; 
+		dout    : out state
+		
 	);
 
 	function sub_bytes (din : state) return state is
@@ -75,9 +80,33 @@ entity cipher is
 end cipher;
 
 architecture behavioral of cipher is
+signal reg_D, reg_Q : state;
+signal sub_bytes_out, shift_rows_out, mix_columns_out, add_round_key_out, add_round_key_in : state;
+
+
 begin
-
-	dout <= mix_columns(din);
-
+	
+	shift_rows_out <= shift_rows(sub_bytes(reg_Q));
+	mix_columns_out <= mix_columns(shift_rows_out);
+	
+	mux_3_1 : process(y, din, shift_rows_out, mix_columns_out)
+	begin
+		case y is 
+			when "00"   => add_round_key_in <= din;
+			when "01"   => add_round_key_in <= mix_columns_out;
+			when others => add_round_key_in <= shift_rows_out;
+		end case;
+	end process mux_3_1;
+	
+	add_round_key_out <= add_round_key(add_round_key_in, rkey_in);
+	reg_D <= add_round_key_out;
+	
+	reg : entity work.state_reg port map(clk => clk, 
+													 reset => reset,
+												    D => reg_D,
+													 Q => reg_Q
+													);
+	dout <= reg_Q;
+	
 end behavioral;
 

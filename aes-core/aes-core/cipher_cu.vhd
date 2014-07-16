@@ -76,6 +76,7 @@ begin
 							 y_3_4 <= "--"; 
 							 y_end <= '0';
 							 S_next <= S3;
+						  end if;
 			
 			when S3 =>   y_1_2 <= "--"; 
 							 y_3_4 <= "--"; 
