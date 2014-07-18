@@ -44,7 +44,7 @@ end cipher_cu;
 
 architecture Behavioral of cipher_cu is
 
-type States is (S0, S1, S2, S3);
+type States is (S0, S1, S2, S3, S4, S5);
 signal S, S_next : States;
 
 begin
@@ -61,27 +61,34 @@ begin
 						   S_next <= S0;
 						  end if;
 			
-			when S1 => y_1_2 <= "00"; -- load data block
+			when S1 => y_1_2 <= "--"; -- round key 0 not yet available (due to synchonous read)
 						  y_3_4 <= "01"; -- increment counter
 						  y_end <= '0';
 						  S_next <= S2;
 						  
-			when S2 => if x_comp = '0' then -- last round not yet reached
-							 y_1_2 <= "01"; -- include mix column stage
-							 y_3_4 <= "01"; -- increment counter
-							 y_end <= '0';
-							 S_next <= S2;
-						  else -- reached last round
-							 y_1_2 <= "01"; -- exclude mix column stage
-							 y_3_4 <= "--"; 
-							 y_end <= '0';
-							 S_next <= S3;
+			when S2 => y_1_2 <= "00"; -- load in plaintext (round key 0 now available) 
+						  y_3_4 <= "01"; -- increment counter
+						  y_end <= '0';
+						  S_next <= S3;
+			
+			when S3 => y_1_2 <= "01"; -- include mix columns stage
+						  y_3_4 <= "01"; 
+						  y_end <= '0';  
+						  if x_comp = '1' then
+						   	S_next <= S4; -- last round in within the next cycle
+						  else 
+								S_next <= S3;
 						  end if;
 			
-			when S3 =>   y_1_2 <= "--"; 
-							 y_3_4 <= "--"; 
-							 y_end <= '1';  -- encryption finished (output valid for one cycle)
-							 S_next <= S0;  -- go to initial state 
+			when S4 => y_1_2 <= "10"; -- leave out mix columns stage
+						  y_3_4 <= "--"; 
+						  y_end <= '0';
+						  S_next <= S5;
+			
+			when S5 => y_1_2 <= "--"; 
+						  y_3_4 <= "--"; 
+						  y_end <= '1'; -- finished (output valid for one cycle)
+						  S_next <= S0;
 		end case;
 	end process delta;
 

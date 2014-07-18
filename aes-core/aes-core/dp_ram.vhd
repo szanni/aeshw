@@ -48,7 +48,6 @@ end dp_ram;
 architecture Behavioral of dp_ram is
 type ram_memory is array(0 to (2**address_width)-1) of state;
 signal ram : ram_memory;
-signal address_read_reg : std_logic_vector(address_width -1 downto 0);
 begin
 	
 	write_p : process(clk)
@@ -58,10 +57,14 @@ begin
 				ram(to_integer(unsigned(address_write))) <= din_write;
 			end if;
 		end if;
-		address_read_reg <= address_read;
 	end process write_p;
-		
-	q <= ram(to_integer(unsigned(address_read_reg)));
+			
+	read_p : process(clk)
+	begin
+		if rising_edge(clk) then
+				q <= ram(to_integer(unsigned(address_read)));
+		end if;
+	end process read_p;
 
 end Behavioral;
 
