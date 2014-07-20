@@ -74,8 +74,10 @@ entity cipher is
 	end mix_columns;
 
 	function add_round_key (din : state; key : state) return state is
+	variable tout : state;
 	begin
-		return din xor key;
+		tout := din xor key;
+		return tout;
 	end add_round_key;
 end cipher;
 
