@@ -101,6 +101,7 @@ BEGIN
 		
 		enc_start <= '1';
 		din <= x"00112233445566778899aabbccddeeff"; -- plaintext
+		
 		wait for clk_period;
 		
 		assert addr_rkey = x"0" report "encryption : wrong round key address" severity failure; -- counter initialized

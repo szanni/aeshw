@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date:    14:57:31 07/13/2014 
+-- Create Date:    16:44:59 07/20/2014 
 -- Design Name: 
--- Module Name:    counter - Behavioral 
+-- Module Name:    decrementor - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -31,26 +31,26 @@ use work.types.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity counter is
+entity decrementor is
 	port(
-		clk   : in  std_logic;
-		reset : in  std_logic;
- 		y     : in  std_logic_vector(1 downto 0);
-		d_out : out byte;
-		x     : out std_logic -- boolean indicating if the tenth round is reached (d_out = 'A')
+			clk   : in  std_logic;
+			reset : in  std_logic;
+			y     : in  std_logic_vector(1 downto 0);
+			d_out : out byte;
+			x     : out std_logic -- boolean indicating if the tenth round is reached (d_out = '0')
+		);
+end decrementor;
 
-	);
-end counter;
-
-architecture Behavioral of counter is
+architecture Behavioral of decrementor is
 signal reg_D, reg_Q : byte;
-
 begin
+
+
 	mux_3_1 : process(y, reg_Q)
 	begin
 		case y is 
-			when "00"   => reg_D <= (others => '0');
-			when "01"   => reg_D <= reg_Q + 1;
+			when "00"   => reg_D <= x"0A";
+			when "01"   => reg_D <= reg_Q - 1;
 			when others => reg_D <= reg_Q;
 		end case;
 	end process mux_3_1;
@@ -67,7 +67,7 @@ begin
 	
 	comp : process (reg_Q)
 	begin
-		if reg_Q = x"0A" then
+		if reg_Q = x"00" then
 			x <= '1';
 		else
 			x <= '0';
@@ -75,6 +75,6 @@ begin
 	end process comp;
 
 	d_out <= reg_Q;
-	
+
 end Behavioral;
 

@@ -6,8 +6,12 @@ use work.sbox.all;
 
 entity inv_cipher is
 	port (
-		din  : in  state;
-		dout : out state
+		clk     : in  std_logic;
+		reset   : in  std_logic;
+		y	     : in  std_logic_vector(1 downto 0);	
+		din     : in  state;
+		rkey_in : in  state; 
+		dout    : out state
 	);
 
 	function inv_sub_bytes (din : state) return state is
@@ -69,16 +73,52 @@ entity inv_cipher is
 	end inv_mix_columns;
 
 	function add_round_key (din : state; key : state) return state is
+	variable tout : state;
 	begin
-		return din xor key;
+		tout := din xor key;
+		return tout;
 	end add_round_key;
 
 end inv_cipher;
 
 architecture behavioral of inv_cipher is
+signal reg_D, reg_Q : state;
+signal inv_shift_rows_out, inv_sub_bytes_out, add_round_key_in, add_round_key_out, inv_mix_columns_out  : state;
+signal data_in_ctrl, leave_mix_columns_ctrl : std_logic;
+
+
 begin
 
-	dout <= inv_mix_columns(din);
+	inv_shift_rows_out <= inv_shift_rows(reg_Q);
+	inv_sub_bytes_out <= inv_sub_bytes(inv_shift_rows_out);
+	
+	data_in_ctrl <= y(1);
+	data_in_mux : process(data_in_ctrl, din, inv_sub_bytes_out)
+	begin
+		case data_in_ctrl is 
+			when '0'    => add_round_key_in <= din;
+			when others => add_round_key_in <= inv_sub_bytes_out;
+		end case;
+	end process data_in_mux;
+	
+	add_round_key_out <= add_round_key_in xor rkey_in; --add_round_key(add_round_key_in, rkey_in);	
+	inv_mix_columns_out <= inv_mix_columns(add_round_key_out);
+	
+	leave_mix_columns_ctrl <= y(0);
+	leave_mix_columns_mux : process(leave_mix_columns_ctrl, add_round_key_out, inv_mix_columns_out)
+	begin
+		case leave_mix_columns_ctrl is 
+			when '0'    => reg_D <= add_round_key_out;
+			when others => reg_D <= inv_mix_columns_out;
+		end case;
+	end process leave_mix_columns_mux;
+	
+	reg : entity work.state_reg port map(clk => clk, 
+													 reset => reset,
+												    D => reg_D,
+													 Q => reg_Q
+													);
+	dout <= reg_Q;
 
 end behavioral;
 
