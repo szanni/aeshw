@@ -31,38 +31,39 @@ use work.types.all;
 --use UNISIM.VComponents.all;
 
 entity aes_module is
-    port ( clk :      in  std_logic;
-			  reset :    in  std_logic;
-			  din :      in  state; -- 128 bit key or plaintext/cyphertext block
-           dout :     out state; -- 128 bit plaintext/cyphertext block
-           ctrl_in :  in  byte; 
-           ctrl_out : in  byte
+    port ( clk       : in  std_logic;
+			  reset     : in  std_logic;
+			  din       : in  state; -- 128 bit key or plaintext/cyphertext block
+           dout      : out state; -- 128 bit plaintext/cyphertext block
+			  mode      : in  aes_mode;
+           aes_start : in  std_logic;
+			  aes_end   : out std_logic
 			 );
 end aes_module;
 
 architecture Behavioral of aes_module is
- type aes_mode is (ENCRYPT, DECRYPT, EXPAND_KEY);
- attribute enum_encoding of aes_mode : type is "00 01 10";
+
  signal rkey : state;
  signal rkey_addr, rkey_addr_enc, rkey_addr_dec : std_logic_vector(3 downto 0);
  signal dout_enc, dout_dec : state;
  signal start_enc, start_dec, start_exp : std_logic;
  signal end_enc, end_dec, end_exp : std_logic;
+ signal mux_ctrl : aes_mode;
+
 begin
-	
-	
-	dout_mux : process()
+		
+	dout_mux : process(mux_ctrl, dout_enc, dout_dec)
 	begin
-		case data_in_ctrl is 
+		case mux_ctrl is 
 			when ENCRYPT => dout <= dout_enc;
 			when DECRYPT => dout <= dout_dec;
 			when others => null;
 		end case;
-	end process dout;
+	end process dout_mux;
 	
-	rkey_addr_mux : process(rkey_addr_enc, rkey_addr_dec)
+	rkey_addr_mux : process(mux_ctrl, rkey_addr_enc, rkey_addr_dec)
 	begin
-		case data_in_ctrl is 
+		case mux_ctrl is 
 			when ENCRYPT => rkey_addr <= rkey_addr_enc;
 			when DECRYPT => rkey_addr <= rkey_addr_dec;
 			when others => null;
@@ -97,6 +98,20 @@ begin
 																		key_in => din,
 																		key_out => rkey
 																	  );
-
+	
+	control_unit: entity work.aes_module_cu port map(clk => clk,
+																	 reset => reset,
+																	 x_start => aes_start,
+																	 x_mode => mode,
+																	 x_end_enc => end_enc,
+																	 x_end_dec => end_dec,
+																	 x_end_exp => end_exp,
+																	 y_end => aes_end,      
+																	 y_start_enc => start_enc,
+																	 y_start_dec => start_dec,
+																	 y_start_exp => start_exp,
+																	 y_mux_ctrl => mux_ctrl
+																	 );
+																	 
 end Behavioral;
 

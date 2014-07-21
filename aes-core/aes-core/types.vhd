@@ -2,7 +2,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 package types is
-
+	type aes_mode is (ENCRYPT, DECRYPT, EXPAND_KEY);
+	attribute enum_encoding : string;
+	attribute enum_encoding of aes_mode : type is "00 01 10";
+	
 	subtype byte is std_logic_vector(7 downto 0);
 	subtype state is std_logic_vector(127 downto 0);
 	subtype word is std_logic_vector(31 downto 0);
