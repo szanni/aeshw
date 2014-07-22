@@ -53,14 +53,13 @@ architecture Behavioral of aes_module is
 
 begin
 	dout <= aes_result;
-
-	dout_mux : process(mux_ctrl, dout_enc, dout_dec)
+	
+	dout_mux : process(mux_ctrl, aes_result, dout_enc, dout_dec)
 	begin
 		case mux_ctrl is 
 			when ENCRYPT => aes_result <= dout_enc;
 			when DECRYPT => aes_result <= dout_dec;
-			when IDLE    => aes_result <= aes_result;
-			when others => null;
+			when others  => aes_result  <= aes_result;
 		end case;
 	end process dout_mux;
 	
@@ -68,8 +67,7 @@ begin
 	begin
 		case mux_ctrl is 
 			when ENCRYPT => rkey_addr <= rkey_addr_enc;
-			when DECRYPT => rkey_addr <= rkey_addr_dec;
-			when others => null;
+			when others  => rkey_addr <= rkey_addr_dec;
 		end case;
 	end process rkey_addr_mux;
 	
