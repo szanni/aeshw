@@ -31,13 +31,13 @@ use work.types.all;
 --use UNISIM.VComponents.all;
 
 entity aes_module is
-    port ( clk       : in  std_logic;
-			  reset     : in  std_logic;
-			  din       : in  state; -- 128 bit key or plaintext/cyphertext block
-           dout      : out state; -- 128 bit plaintext/cyphertext block
-			  mode      : in  aes_mode;
-           aes_start : in  std_logic;
-			  aes_end   : out std_logic
+    port ( clk       : in     std_logic;
+			  reset     : in     std_logic;
+			  din       : in     state; -- 128 bit key or plaintext/cyphertext block
+           dout      : out    state; -- 128 bit plaintext/cyphertext block
+			  mode      : in     aes_mode;
+           aes_start : in     std_logic;
+			  aes_done  : out    std_logic
 			 );
 end aes_module;
 
@@ -49,14 +49,17 @@ architecture Behavioral of aes_module is
  signal start_enc, start_dec, start_exp : std_logic;
  signal end_enc, end_dec, end_exp : std_logic;
  signal mux_ctrl : aes_mode;
+ signal aes_result : state;
 
 begin
-		
+	dout <= aes_result;
+
 	dout_mux : process(mux_ctrl, dout_enc, dout_dec)
 	begin
 		case mux_ctrl is 
-			when ENCRYPT => dout <= dout_enc;
-			when DECRYPT => dout <= dout_dec;
+			when ENCRYPT => aes_result <= dout_enc;
+			when DECRYPT => aes_result <= dout_dec;
+			when IDLE    => aes_result <= aes_result;
 			when others => null;
 		end case;
 	end process dout_mux;
@@ -106,7 +109,7 @@ begin
 																	 x_end_enc => end_enc,
 																	 x_end_dec => end_dec,
 																	 x_end_exp => end_exp,
-																	 y_end => aes_end,      
+																	 y_done => aes_done,      
 																	 y_start_enc => start_enc,
 																	 y_start_dec => start_dec,
 																	 y_start_exp => start_exp,
