@@ -4,7 +4,16 @@
 #include <crypto/algapi.h>
 #include <crypto/aes.h>
 #include <asm/io.h>
-#include <linux/delay.h>
+#include <linux/of_platform.h>
+
+#define OFFSET_DIN  0x0
+#define OFFSET_DOUT 0x10
+#define OFFSET_CTL  0x20
+#define OFFSET_STAT 0x24
+
+unsigned long remap_size;
+unsigned long phys_addr;
+unsigned long *virt_addr;
 
 struct aeshw_ctx {
 };
@@ -12,7 +21,7 @@ struct aeshw_ctx {
 static int aeshw_ecb_setkey(struct crypto_tfm *tfm, const u8 *in_key,
 			    unsigned int key_len)
 {
-	printk(KERN_INFO "Set ecb key in aeshw!\n");
+	//printk(KERN_INFO "Set ecb key in aeshw!\n");
 	return 0;
 }
 
@@ -20,22 +29,44 @@ static int aeshw_ecb_encrypt(struct blkcipher_desc *desc,
 			     struct scatterlist *dst, struct scatterlist *src,
 			     unsigned int nbytes)
 {
-	printk(KERN_INFO "Encrypt ecb in aeshw!\n");
-	return 0;
+	int rv;
+	u32 start = 1;
+	struct blkcipher_walk walk;
+
+	//printk(KERN_INFO "Encrypt ecb in aeshw!\n");
+
+	blkcipher_walk_init(&walk, dst, src, nbytes);
+	rv = blkcipher_walk_virt_block(desc, &walk, 16);
+
+	while ((nbytes = walk.nbytes)) {
+		iowrite32_rep((u8*)virt_addr + OFFSET_DIN, walk.src.virt.addr, 4);
+		iowrite32(start, (u8*)virt_addr + OFFSET_CTL);
+
+		while (ioread32((u8*)virt_addr + OFFSET_STAT) == 0) {
+			//idle
+		}
+
+		ioread32_rep((u8*)virt_addr + OFFSET_DOUT, walk.dst.virt.addr, 4);
+
+		nbytes -= nbytes;
+		rv = blkcipher_walk_done(desc, &walk, nbytes);
+	}
+
+	return rv;
 }
 
 static int aeshw_ecb_decrypt(struct blkcipher_desc *desc,
 			     struct scatterlist *dst, struct scatterlist *src,
 			     unsigned int nbytes)
 {
-	printk(KERN_INFO "Decrypt ecb in aeshw!\n");
+	//printk(KERN_INFO "Decrypt ecb in aeshw!\n");
 	return 0;
 }
 
 static struct crypto_alg aeshw_ecb_alg = {
 	.cra_name		=	"ecb(aes)",
 	.cra_driver_name	=	"aeshw-ecb",
-	.cra_priority		=	1,
+	.cra_priority		=	100,
 	.cra_flags		=	CRYPTO_ALG_TYPE_BLKCIPHER,
 	.cra_blocksize		=	AES_BLOCK_SIZE,
 	.cra_ctxsize		=	sizeof(struct aeshw_ctx),
@@ -53,136 +84,79 @@ static struct crypto_alg aeshw_ecb_alg = {
 	}
 };
 
-static int aeshw_cbc_setkey(struct crypto_tfm *tfm, const u8 *in_key,
-			    unsigned int key_len)
-{
-	printk(KERN_INFO "Set cbc key in aeshw!\n");
-	return 0;
-}
-
-static int aeshw_cbc_encrypt(struct blkcipher_desc *desc,
-			     struct scatterlist *dst, struct scatterlist *src,
-			     unsigned int nbytes)
-{
-	//struct aeshw_ctx *ctx = crypto_blkcipher_ctx(desc->tfm);
-	struct blkcipher_walk walk;
-	int rv;
-
-	printk(KERN_INFO "Encrypt cbc in aeshw!\n");
-
-	blkcipher_walk_init(&walk, dst, src, nbytes);
-	rv = blkcipher_walk_virt(desc, &walk);
-
-	while ((nbytes = walk.nbytes)) {
-		memcpy(walk.dst.virt.addr, walk.src.virt.addr, nbytes);
-		nbytes -= nbytes;
-		rv = blkcipher_walk_done(desc, &walk, nbytes);
-	}
-
-	return rv;
-}
-
-static int aeshw_cbc_decrypt(struct blkcipher_desc *desc,
-			     struct scatterlist *dst, struct scatterlist *src,
-			     unsigned int nbytes)
-{
-	printk(KERN_INFO "Decrypt cbc in aeshw!\n");
-	return 0;
-}
-
-static struct crypto_alg aeshw_cbc_alg = {
-	.cra_name		=	"cbc(aes)",
-	.cra_driver_name	=	"aeshw-cbc",
-	.cra_priority		=	1,
-	.cra_flags		=	CRYPTO_ALG_TYPE_BLKCIPHER,
-	.cra_blocksize		=	AES_BLOCK_SIZE,
-	.cra_ctxsize		=	sizeof(struct aeshw_ctx),
-	.cra_alignmask		=	0,
-	.cra_type		=	&crypto_blkcipher_type,
-	.cra_module		=	THIS_MODULE,
-	.cra_u			=	{
-		.blkcipher = {
-			.min_keysize		=	AES_MIN_KEY_SIZE,
-			.max_keysize		=	AES_MAX_KEY_SIZE,
-			.setkey	   		= 	aeshw_cbc_setkey,
-			.encrypt		=	aeshw_cbc_encrypt,
-			.decrypt		=	aeshw_cbc_decrypt,
-			.ivsize	   		= 	AES_BLOCK_SIZE,
-		}
-	}
-};
-
-static int __init aeshw_init(void)
+static int aeshw_probe(struct platform_device *pdev)
 {
 	int rv = 0;
-
-	unsigned long phys = 0x43C30000ul;
-	//unsigned long phys = 0x41220000ul;
-	unsigned long size = 4ul;
-	u32 val;
-	void *virt;
+	struct resource *res;
 
 	if ((rv = crypto_register_alg(&aeshw_ecb_alg)))
 		goto err;
 
-	if ((rv = crypto_register_alg(&aeshw_cbc_alg)))
+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+	if (res == NULL) {
+		dev_err(&pdev->dev, "No memory resource\n");
+		rv = -ENODEV;
 		goto err_unregister_ecb;
-
-	printk(KERN_INFO "Loaded aeshw!\n");
-
-
-	if (request_mem_region(phys, size, "") == NULL) {
-		printk(KERN_ERR "aeshw: request_mem_region");
-		return -ENOMEM;
 	}
 
-	virt = ioremap_nocache(phys, size);
-	if (virt == NULL) {
-		printk(KERN_ERR "aeshw: ioremap_nocache");
-		return -ENOMEM;
-		//goto err;
+	remap_size = res->end - res->start + 1;
+	remap_size = 512;
+	phys_addr = res->start;
+	if (request_mem_region(phys_addr, remap_size, pdev->name) == NULL) {
+		dev_err(&pdev->dev, "Cannot request IO\n");
+		rv = -ENXIO;
+		goto err_unregister_ecb;
 	}
 
-	val = 0x1;
-	iowrite32(val, virt);
-	printk(KERN_INFO "SW: %u\n", ioread32(virt));
-	msleep(100);
+	virt_addr = ioremap_nocache(phys_addr, remap_size);
+	if (virt_addr == NULL) {
+		dev_err(&pdev->dev, "Cannot ioremap memory at 0x%08lx\n",
+			(unsigned long)phys_addr);
+		rv = -ENOMEM;
+		goto err_release_mem;
+	}
 
-	val = 0x3;
-	iowrite32(val, virt);
-	msleep(100);
-
-	val = 0x7;
-	iowrite32(val, virt);
-	msleep(100);
-
-	val = 0xF;
-	iowrite32(val, virt);
-	msleep(100);
-
-	iounmap(virt);
-	release_mem_region(phys, size);
-
+	printk(KERN_INFO "Probed aeshw device!\n");
 	return rv;
+
+err_release_mem:
+	release_mem_region(phys_addr, remap_size);
 
 err_unregister_ecb:
 	crypto_unregister_alg(&aeshw_ecb_alg);
 
 err:
-	printk(KERN_ERR "Failed to load aeshw!\n");
+	dev_err(&pdev->dev, "Failed to initialize device\n");
 	return rv;
 }
 
-static void __exit aeshw_exit(void)
+static int aeshw_remove(struct platform_device *pdev)
 {
-	crypto_unregister_alg(&aeshw_cbc_alg);
+	iounmap(virt_addr);
+	release_mem_region(phys_addr, remap_size);
 	crypto_unregister_alg(&aeshw_ecb_alg);
-
-	printk(KERN_INFO "Unloaded aeshw!\n");
+	printk(KERN_INFO "Removed aeshw device!\n");
+	return 0;
 }
 
-module_init(aeshw_init);
-module_exit(aeshw_exit);
+static struct of_device_id aeshw_of_match[] = {
+	{ .compatible = "aeshw,aeshw-1.00.a", },
+	{}
+};
+
+MODULE_DEVICE_TABLE(of, aeshw_of_match);
+
+static struct platform_driver aeshw_platform_driver = {
+	.probe = aeshw_probe,
+	.remove = aeshw_remove,
+	.driver = {
+		.name = "aeshw",
+		.owner = THIS_MODULE,
+		.of_match_table = of_match_ptr(aeshw_of_match),
+	},
+};
+
+module_platform_driver(aeshw_platform_driver);
 
 MODULE_AUTHOR("Angelo Haller");
 MODULE_DESCRIPTION("AES hardware acceleration");
