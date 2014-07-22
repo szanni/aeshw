@@ -49,17 +49,29 @@ architecture Behavioral of aes_module is
  signal start_enc, start_dec, start_exp : std_logic;
  signal end_enc, end_dec, end_exp : std_logic;
  signal mux_ctrl : aes_mode;
- signal aes_result : state;
+ signal result_valid : std_logic;
+ signal aes_result, dout_in : state;
+ 
 
 begin
-	dout <= aes_result;
+	dout <= dout_in;
 	
-	dout_mux : process(mux_ctrl, aes_result, dout_enc, dout_dec)
+	dout_reg : process (reset, clk, aes_result, result_valid)
+	begin
+			if reset = '1' then
+				dout_in <= (others => '0');
+			elsif rising_edge(clk) then
+				if result_valid = '1' then
+					dout_in <= aes_result;
+				end if;	
+			end if;
+	end process dout_reg;
+	
+	dout_mux : process(mux_ctrl, dout_enc, dout_dec)
 	begin
 		case mux_ctrl is 
 			when ENCRYPT => aes_result <= dout_enc;
-			when DECRYPT => aes_result <= dout_dec;
-			when others  => aes_result  <= aes_result;
+			when others  => aes_result <= dout_dec;
 		end case;
 	end process dout_mux;
 	
@@ -111,7 +123,8 @@ begin
 																	 y_start_enc => start_enc,
 																	 y_start_dec => start_dec,
 																	 y_start_exp => start_exp,
-																	 y_mux_ctrl => mux_ctrl
+																	 y_mux_ctrl => mux_ctrl,
+																	 y_end => result_valid
 																	 );
 																	 
 end Behavioral;
