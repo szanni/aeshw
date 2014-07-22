@@ -1,0 +1,13 @@
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -274,7 +274,8 @@ dtb-$(CONFIG_ARCH_ZYNQ) += zynq-zc702.dtb \
+ 			zynq-zc770-xm012.dtb \
+ 			zynq-zc770-xm013.dtb \
+ 	zynq-zc706.dtb \
+-	zynq-zed.dtb
++	zynq-zed.dtb \
++	zynq-zybo.dtb
+ 
+ targets += dtbs
+ targets += $(dtb-y)
