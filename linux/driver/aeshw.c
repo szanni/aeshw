@@ -21,7 +21,13 @@ struct aeshw_ctx {
 static int aeshw_ecb_setkey(struct crypto_tfm *tfm, const u8 *in_key,
 			    unsigned int key_len)
 {
-	//printk(KERN_INFO "Set ecb key in aeshw!\n");
+	u32 mode = 0x02020202;
+	iowrite32_rep((u8*)virt_addr + OFFSET_DIN, in_key, 4);
+	iowrite32(mode, (u8*)virt_addr + OFFSET_CTL);
+	while (ioread32((u8*)virt_addr + OFFSET_STAT) == 0) {
+		//idle
+	}
+
 	return 0;
 }
 
@@ -30,7 +36,7 @@ static int aeshw_ecb_encrypt(struct blkcipher_desc *desc,
 			     unsigned int nbytes)
 {
 	int rv;
-	u32 start = 1;
+	u32 mode = 0x0;
 	struct blkcipher_walk walk;
 
 	//printk(KERN_INFO "Encrypt ecb in aeshw!\n");
@@ -40,7 +46,7 @@ static int aeshw_ecb_encrypt(struct blkcipher_desc *desc,
 
 	while ((nbytes = walk.nbytes)) {
 		iowrite32_rep((u8*)virt_addr + OFFSET_DIN, walk.src.virt.addr, 4);
-		iowrite32(start, (u8*)virt_addr + OFFSET_CTL);
+		iowrite32(mode, (u8*)virt_addr + OFFSET_CTL);
 
 		while (ioread32((u8*)virt_addr + OFFSET_STAT) == 0) {
 			//idle
