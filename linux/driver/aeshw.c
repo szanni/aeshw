@@ -22,7 +22,11 @@ static int aeshw_ecb_setkey(struct crypto_tfm *tfm, const u8 *in_key,
 			    unsigned int key_len)
 {
 	u32 mode = 0x02020202;
-	iowrite32_rep((u8*)virt_addr + OFFSET_DIN, in_key, 4);
+
+	//printk(KERN_INFO "Set ecb key in aeshw!\n");
+
+	memcpy_toio((u8*)virt_addr + OFFSET_DIN, in_key, key_len);
+
 	iowrite32(mode, (u8*)virt_addr + OFFSET_CTL);
 	while (ioread32((u8*)virt_addr + OFFSET_STAT) == 0) {
 		//idle
@@ -42,19 +46,19 @@ static int aeshw_ecb_encrypt(struct blkcipher_desc *desc,
 	//printk(KERN_INFO "Encrypt ecb in aeshw!\n");
 
 	blkcipher_walk_init(&walk, dst, src, nbytes);
-	rv = blkcipher_walk_virt_block(desc, &walk, 16);
+	rv = blkcipher_walk_virt(desc, &walk);
 
 	while ((nbytes = walk.nbytes)) {
-		iowrite32_rep((u8*)virt_addr + OFFSET_DIN, walk.src.virt.addr, 4);
+		memcpy_toio((u8*)virt_addr + OFFSET_DIN, walk.src.virt.addr, AES_BLOCK_SIZE);
 		iowrite32(mode, (u8*)virt_addr + OFFSET_CTL);
 
 		while (ioread32((u8*)virt_addr + OFFSET_STAT) == 0) {
 			//idle
 		}
 
-		ioread32_rep((u8*)virt_addr + OFFSET_DOUT, walk.dst.virt.addr, 4);
+		memcpy_fromio(walk.dst.virt.addr, (u8*)virt_addr + OFFSET_DOUT, AES_BLOCK_SIZE);
 
-		nbytes -= nbytes;
+		nbytes -= AES_BLOCK_SIZE;
 		rv = blkcipher_walk_done(desc, &walk, nbytes);
 	}
 
@@ -65,8 +69,30 @@ static int aeshw_ecb_decrypt(struct blkcipher_desc *desc,
 			     struct scatterlist *dst, struct scatterlist *src,
 			     unsigned int nbytes)
 {
+	int rv;
+	u32 mode = 0x01010101;
+	struct blkcipher_walk walk;
+
 	//printk(KERN_INFO "Decrypt ecb in aeshw!\n");
-	return 0;
+
+	blkcipher_walk_init(&walk, dst, src, nbytes);
+	rv = blkcipher_walk_virt(desc, &walk);
+
+	while ((nbytes = walk.nbytes)) {
+		memcpy_toio((u8*)virt_addr + OFFSET_DIN, walk.src.virt.addr, AES_BLOCK_SIZE);
+		iowrite32(mode, (u8*)virt_addr + OFFSET_CTL);
+
+		while (ioread32((u8*)virt_addr + OFFSET_STAT) == 0) {
+			//idle
+		}
+
+		memcpy_fromio(walk.dst.virt.addr, (u8*)virt_addr + OFFSET_DOUT, AES_BLOCK_SIZE);
+
+		nbytes -= AES_BLOCK_SIZE;
+		rv = blkcipher_walk_done(desc, &walk, nbytes);
+	}
+
+	return rv;
 }
 
 static struct crypto_alg aeshw_ecb_alg = {
