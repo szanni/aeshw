@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root MajorVersion="0" MinorVersion="27">
+  <CompositeFile CompositeFileTopName="system" CanBeSetAsTop="true" CanDisplayChildGraph="true">
+    <Description>Composite Fileset</Description>
+    <Generation Name="SYNTHESIS" State="STALE"/>
+    <Generation Name="IMPLEMENTATION" State="STALE"/>
+    <Generation Name="SIMULATION" State="STALE"/>
+    <FileCollection Name="SOURCES" Type="SOURCES">
+      <File Name="ip/system_BTNs_4Bits_0/system_BTNs_4Bits_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_LEDs_4Bits_1/system_LEDs_4Bits_1.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_SWs_4Bits_2/system_SWs_4Bits_2.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_axi_dispctrl_0_0/system_axi_dispctrl_0_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_axi_dispctrl_1_1/system_axi_dispctrl_1_1.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_axi_i2s_adi_1_0/system_axi_i2s_adi_1_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_axi_mem_intercon_0/system_axi_mem_intercon_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_axi_protocol_converter_0_0/system_axi_protocol_converter_0_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_axi_vdma_0_0/system_axi_vdma_0_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_axi_vdma_1_1/system_axi_vdma_1_1.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_ground_0/system_ground_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_hdmi_tx_0_0/system_hdmi_tx_0_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_processing_system7_0_0/system_processing_system7_0_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_processing_system7_0_axi_periph_2/system_processing_system7_0_axi_periph_2.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_xbar_2/system_xbar_2.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_vdd_1/system_vdd_1.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_xlconstant_0_2/system_xlconstant_0_2.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226217" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m00_regslice_8/system_m00_regslice_8.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791443" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m02_regslice_10/system_m02_regslice_10.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791443" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m04_regslice_12/system_m04_regslice_12.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791443" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m06_regslice_14/system_m06_regslice_14.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791443" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_auto_pc_5/system_auto_pc_5.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397764250" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_xbar_3/system_xbar_3.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226218" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m00_regslice_16/system_m00_regslice_16.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791675" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m01_regslice_17/system_m01_regslice_17.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791675" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m02_regslice_18/system_m02_regslice_18.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791675" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m03_regslice_19/system_m03_regslice_19.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791675" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m04_regslice_20/system_m04_regslice_20.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791675" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m05_regslice_21/system_m05_regslice_21.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791675" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m06_regslice_22/system_m06_regslice_22.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791675" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m07_regslice_23/system_m07_regslice_23.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="false" Timestamp="1397791675" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_auto_pc_7/system_auto_pc_7.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226218" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="system_ooc.xdc" Type="XDC">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="false"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="OUT_OF_CONTEXT"/>
+      </File>
+      <File Name="ip/system_aeshw_0_0/system_aeshw_0_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226187" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m00_regslice_24/system_m00_regslice_24.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226213" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m01_regslice_25/system_m01_regslice_25.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226213" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m02_regslice_26/system_m02_regslice_26.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226213" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m03_regslice_27/system_m03_regslice_27.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226213" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m04_regslice_28/system_m04_regslice_28.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226213" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m05_regslice_29/system_m05_regslice_29.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226214" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m06_regslice_30/system_m06_regslice_30.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226214" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_m07_regslice_31/system_m07_regslice_31.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226214" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/system_rst_processing_system7_0_100M_0/system_rst_processing_system7_0_100M_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="1406226214" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+    </FileCollection>
+  </CompositeFile>
+</Root>

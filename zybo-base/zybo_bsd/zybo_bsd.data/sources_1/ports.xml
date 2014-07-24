@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<Interface Version="1" Minor="2">
+	<Ifc Id="ROOT" Top="1">
+		<Bus Id="AC_BCLK">
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="AC_MUTE_N">
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="AC_PBLRC">
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="AC_RECLRC">
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="AC_SDATA_O">
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="BLUE_O">
+			<Port Id="4" Dir="OUT"/>
+			<Port Id="3" Dir="OUT"/>
+			<Port Id="2" Dir="OUT"/>
+			<Port Id="1" Dir="OUT"/>
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="GREEN_O">
+			<Port Id="5" Dir="OUT"/>
+			<Port Id="4" Dir="OUT"/>
+			<Port Id="3" Dir="OUT"/>
+			<Port Id="2" Dir="OUT"/>
+			<Port Id="1" Dir="OUT"/>
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="RED_O">
+			<Port Id="4" Dir="OUT"/>
+			<Port Id="3" Dir="OUT"/>
+			<Port Id="2" Dir="OUT"/>
+			<Port Id="1" Dir="OUT"/>
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="HDMI_OEN">
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="sws_4bits_tri_i">
+			<Port Id="3" Dir="IN"/>
+			<Port Id="2" Dir="IN"/>
+			<Port Id="1" Dir="IN"/>
+			<Port Id="0" Dir="IN"/>
+		</Bus>
+		<Bus Id="DDR_dm">
+			<Port Id="3" Dir="INOUT"/>
+			<Port Id="2" Dir="INOUT"/>
+			<Port Id="1" Dir="INOUT"/>
+			<Port Id="0" Dir="INOUT"/>
+		</Bus>
+		<Bus Id="DDR_addr">
+			<Port Id="14" Dir="INOUT"/>
+			<Port Id="13" Dir="INOUT"/>
+			<Port Id="12" Dir="INOUT"/>
+			<Port Id="11" Dir="INOUT"/>
+			<Port Id="10" Dir="INOUT"/>
+			<Port Id="9" Dir="INOUT"/>
+			<Port Id="8" Dir="INOUT"/>
+			<Port Id="7" Dir="INOUT"/>
+			<Port Id="6" Dir="INOUT"/>
+			<Port Id="5" Dir="INOUT"/>
+			<Port Id="4" Dir="INOUT"/>
+			<Port Id="3" Dir="INOUT"/>
+			<Port Id="2" Dir="INOUT"/>
+			<Port Id="1" Dir="INOUT"/>
+			<Port Id="0" Dir="INOUT"/>
+		</Bus>
+		<Bus Id="DDR_dqs_p">
+			<Port Id="3" Dir="INOUT"/>
+			<Port Id="2" Dir="INOUT"/>
+			<Port Id="1" Dir="INOUT"/>
+			<Port Id="0" Dir="INOUT"/>
+		</Bus>
+		<Bus Id="DDR_dq">
+			<Port Id="31" Dir="INOUT"/>
+			<Port Id="30" Dir="INOUT"/>
+			<Port Id="29" Dir="INOUT"/>
+			<Port Id="28" Dir="INOUT"/>
+			<Port Id="27" Dir="INOUT"/>
+			<Port Id="26" Dir="INOUT"/>
+			<Port Id="25" Dir="INOUT"/>
+			<Port Id="24" Dir="INOUT"/>
+			<Port Id="23" Dir="INOUT"/>
+			<Port Id="22" Dir="INOUT"/>
+			<Port Id="21" Dir="INOUT"/>
+			<Port Id="20" Dir="INOUT"/>
+			<Port Id="19" Dir="INOUT"/>
+			<Port Id="18" Dir="INOUT"/>
+			<Port Id="17" Dir="INOUT"/>
+			<Port Id="16" Dir="INOUT"/>
+			<Port Id="15" Dir="INOUT"/>
+			<Port Id="14" Dir="INOUT"/>
+			<Port Id="13" Dir="INOUT"/>
+			<Port Id="12" Dir="INOUT"/>
+			<Port Id="11" Dir="INOUT"/>
+			<Port Id="10" Dir="INOUT"/>
+			<Port Id="9" Dir="INOUT"/>
+			<Port Id="8" Dir="INOUT"/>
+			<Port Id="7" Dir="INOUT"/>
+			<Port Id="6" Dir="INOUT"/>
+			<Port Id="5" Dir="INOUT"/>
+			<Port Id="4" Dir="INOUT"/>
+			<Port Id="3" Dir="INOUT"/>
+			<Port Id="2" Dir="INOUT"/>
+			<Port Id="1" Dir="INOUT"/>
+			<Port Id="0" Dir="INOUT"/>
+		</Bus>
+		<Bus Id="DDR_ba">
+			<Port Id="2" Dir="INOUT"/>
+			<Port Id="1" Dir="INOUT"/>
+			<Port Id="0" Dir="INOUT"/>
+		</Bus>
+		<Bus Id="DDR_dqs_n">
+			<Port Id="3" Dir="INOUT"/>
+			<Port Id="2" Dir="INOUT"/>
+			<Port Id="1" Dir="INOUT"/>
+			<Port Id="0" Dir="INOUT"/>
+		</Bus>
+		<Bus Id="btns_4bits_tri_i">
+			<Port Id="3" Dir="IN"/>
+			<Port Id="2" Dir="IN"/>
+			<Port Id="1" Dir="IN"/>
+			<Port Id="0" Dir="IN"/>
+		</Bus>
+		<Bus Id="leds_4bits_tri_o">
+			<Port Id="3" Dir="OUT"/>
+			<Port Id="2" Dir="OUT"/>
+			<Port Id="1" Dir="OUT"/>
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="FIXED_IO_mio">
+			<Port Id="53" Dir="INOUT"/>
+			<Port Id="52" Dir="INOUT"/>
+			<Port Id="51" Dir="INOUT"/>
+			<Port Id="50" Dir="INOUT"/>
+			<Port Id="49" Dir="INOUT"/>
+			<Port Id="48" Dir="INOUT"/>
+			<Port Id="47" Dir="INOUT"/>
+			<Port Id="46" Dir="INOUT"/>
+			<Port Id="45" Dir="INOUT"/>
+			<Port Id="44" Dir="INOUT"/>
+			<Port Id="43" Dir="INOUT"/>
+			<Port Id="42" Dir="INOUT"/>
+			<Port Id="41" Dir="INOUT"/>
+			<Port Id="40" Dir="INOUT"/>
+			<Port Id="39" Dir="INOUT"/>
+			<Port Id="38" Dir="INOUT"/>
+			<Port Id="37" Dir="INOUT"/>
+			<Port Id="36" Dir="INOUT"/>
+			<Port Id="35" Dir="INOUT"/>
+			<Port Id="34" Dir="INOUT"/>
+			<Port Id="33" Dir="INOUT"/>
+			<Port Id="32" Dir="INOUT"/>
+			<Port Id="31" Dir="INOUT"/>
+			<Port Id="30" Dir="INOUT"/>
+			<Port Id="29" Dir="INOUT"/>
+			<Port Id="28" Dir="INOUT"/>
+			<Port Id="27" Dir="INOUT"/>
+			<Port Id="26" Dir="INOUT"/>
+			<Port Id="25" Dir="INOUT"/>
+			<Port Id="24" Dir="INOUT"/>
+			<Port Id="23" Dir="INOUT"/>
+			<Port Id="22" Dir="INOUT"/>
+			<Port Id="21" Dir="INOUT"/>
+			<Port Id="20" Dir="INOUT"/>
+			<Port Id="19" Dir="INOUT"/>
+			<Port Id="18" Dir="INOUT"/>
+			<Port Id="17" Dir="INOUT"/>
+			<Port Id="16" Dir="INOUT"/>
+			<Port Id="15" Dir="INOUT"/>
+			<Port Id="14" Dir="INOUT"/>
+			<Port Id="13" Dir="INOUT"/>
+			<Port Id="12" Dir="INOUT"/>
+			<Port Id="11" Dir="INOUT"/>
+			<Port Id="10" Dir="INOUT"/>
+			<Port Id="9" Dir="INOUT"/>
+			<Port Id="8" Dir="INOUT"/>
+			<Port Id="7" Dir="INOUT"/>
+			<Port Id="6" Dir="INOUT"/>
+			<Port Id="5" Dir="INOUT"/>
+			<Port Id="4" Dir="INOUT"/>
+			<Port Id="3" Dir="INOUT"/>
+			<Port Id="2" Dir="INOUT"/>
+			<Port Id="1" Dir="INOUT"/>
+			<Port Id="0" Dir="INOUT"/>
+		</Bus>
+		<Port Id="VSYNC_O" Dir="OUT"/>
+		<Port Id="AC_SDATA_I" Dir="IN"/>
+		<Port Id="HDMI_D0_P" Dir="OUT"/>
+		<Port Id="HDMI_D0_N" Dir="OUT"/>
+		<Port Id="HDMI_CLK_P" Dir="OUT"/>
+		<Port Id="HDMI_CLK_N" Dir="OUT"/>
+		<Port Id="HDMI_D1_N" Dir="OUT"/>
+		<Port Id="HDMI_D1_P" Dir="OUT"/>
+		<Port Id="HDMI_D2_N" Dir="OUT"/>
+		<Port Id="HDMI_D2_P" Dir="OUT"/>
+		<Port Id="HSYNC_O" Dir="OUT"/>
+		<Port Id="DDR_cas_n" Dir="INOUT"/>
+		<Port Id="DDR_ck_n" Dir="INOUT"/>
+		<Port Id="DDR_ck_p" Dir="INOUT"/>
+		<Port Id="DDR_cke" Dir="INOUT"/>
+		<Port Id="DDR_cs_n" Dir="INOUT"/>
+		<Port Id="DDR_odt" Dir="INOUT"/>
+		<Port Id="DDR_ras_n" Dir="INOUT"/>
+		<Port Id="DDR_reset_n" Dir="INOUT"/>
+		<Port Id="DDR_we_n" Dir="INOUT"/>
+		<Port Id="FIXED_IO_ddr_vrn" Dir="INOUT"/>
+		<Port Id="FIXED_IO_ddr_vrp" Dir="INOUT"/>
+		<Port Id="FIXED_IO_ps_clk" Dir="INOUT"/>
+		<Port Id="FIXED_IO_ps_porb" Dir="INOUT"/>
+		<Port Id="FIXED_IO_ps_srstb" Dir="INOUT"/>
+		<Port Id="AC_MCLK" Dir="OUT"/>
+		<Port Id="iic_0_scl_io" Dir="INOUT"/>
+		<Port Id="iic_0_sda_io" Dir="INOUT"/>
+	</Ifc>
+</Interface>
+
