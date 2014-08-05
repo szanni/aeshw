@@ -130,7 +130,7 @@ static int aeshw_cbc_encrypt(struct blkcipher_desc *desc,
 	printk(KERN_INFO "Encrypt cbc in aeshw!\n");
 
 	blkcipher_walk_init(&walk, dst, src, nbytes);
-	rv = blkcipher_walk_virt_block(desc, &walk, AES_BLOCK_SIZE);
+	rv = blkcipher_walk_virt(desc, &walk);
 
 	while ((walk.nbytes)) {
 		aeshw_xor_inplace(walk.src.virt.addr, walk.iv);
@@ -218,8 +218,7 @@ static int aeshw_probe(struct platform_device *pdev)
 
 	virt_addr = ioremap_nocache(phys_addr, remap_size);
 	if (virt_addr == NULL) {
-		dev_err(&pdev->dev, "Cannot ioremap memory at 0x%08lx\n",
-			(unsigned long)phys_addr);
+		dev_err(&pdev->dev, "Cannot ioremap memory at 0x%08lx\n", phys_addr);
 		rv = -ENOMEM;
 		goto err_release_mem;
 	}
